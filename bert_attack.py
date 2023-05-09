@@ -46,7 +46,6 @@ def load(model, dataset):
         import pickle
         from huggingface_hub import from_pretrained_keras
         tokenizer = pickle.load(open('tokenizerCNNmsda.pickle', 'rb'))
-        # model = tf.keras.models.load_model("2dCNNmsda.h5")
         model = from_pretrained_keras('NorahAlshahrani/2dCNNmsda')
         return model, tokenizer
 
