@@ -5,7 +5,7 @@
 
 
 
-|    Datasets     |     Models    |      Links     |
+|    Datasets     |     Models    |      Hugging Face Link     |
 |---------------- | ------------- | -------------- |
 |     **`HARD`**    |    **`WordCNN`**   | [https://huggingface.co/NorahAlshahrani/2dCNNhard](https://huggingface.co/NorahAlshahrani/2dCNNhard)  |
 |     **`HARD`**    |   **`WordLSTM`**    | [https://huggingface.co/NorahAlshahrani/biLSTMhard](https://huggingface.co/NorahAlshahrani/biLSTMhard)|
