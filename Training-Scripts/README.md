@@ -1,4 +1,5 @@
-In this repository, we share the code scripts for training and fine-tuning Models on the Hotel Arabic Reviews Dataset (HARD) and Sentiment Analysis for Social Media Posts in Arabic Dialect (MSDA). Also, by studying the effectiveness of adversarial training on BERT models, we share the code scripts of refine-tune BERT models using the augmented datasets with adversarial examples. 
+In this repository, we share code scripts for training and fine-tuning models on the Hotel Arabic Reviews Dataset (HARD) and Sentiment Analysis for Social Media Posts in Arabic Dialect (MSDA), besides our adversarial training code scripts. 
+
 
 
 
