@@ -8,11 +8,11 @@
 |    Datasets     |     Models    |      Links     |
 |---------------- | ------------- | -------------- |
 |                 |    WordCNN    |                |
-|     HARD        |   WordLSTM    |                |
+|     'HARD'      |   WordLSTM    |                |
 |                 |     BERT      |                |
-                      WordCNN     |                |
-|     MSDA        |   WordLSTM    |                |
-                       BERT       |                |
+|                 |   WordCNN     | (https://huggingface.co/NorahAlshahrani/2dCNNmsda) |               |
+|     'MSDA'      |   WordLSTM    |                |
+|                 |     BERT      |                |
 
 
 
