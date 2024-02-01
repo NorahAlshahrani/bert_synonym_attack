@@ -7,12 +7,12 @@
 
 |    Datasets     |     Models    |      Links     |
 |---------------- | ------------- | -------------- |
-|     **HARD**    |    WordCNN    | ([NorahAlshahrani/2dCNNhard](https://huggingface.co/NorahAlshahrani/2dCNNhard))  |
-|     **HARD**    |   WordLSTM    | ([NorahAlshahrani/biLSTMhard](https://huggingface.co/NorahAlshahrani/biLSTMhard))|
-|     **HARD**    |     BERT      | ([NorahAlshahrani/BERThard](https://huggingface.co/NorahAlshahrani/BERThard))    |
-|     **MSDA**    |   WordCNN     | ([NorahAlshahrani/2dCNNmsda](https://huggingface.co/NorahAlshahrani/2dCNNmsda))  |           
-|     **MSDA**    |   WordLSTM    | ([NorahAlshahrani/biLSTMmsda](https://huggingface.co/NorahAlshahrani/biLSTMmsda))|
-|     **MSDA**    |     BERT      | ([NorahAlshahrani/BERTmsda](https://huggingface.co/NorahAlshahrani/BERTmsda))    |
+|     **`HARD`**    |    **`WordCNN`**   | [https://huggingface.co/NorahAlshahrani/2dCNNhard](https://huggingface.co/NorahAlshahrani/2dCNNhard)  |
+|     **`HARD`**    |   **`WordLSTM`**    | [https://huggingface.co/NorahAlshahrani/biLSTMhard](https://huggingface.co/NorahAlshahrani/biLSTMhard)|
+|     **`HARD`**    |     **`BERT`**      | [https://huggingface.co/NorahAlshahrani/BERThard](https://huggingface.co/NorahAlshahrani/BERThard)    |
+|     **`MSDA`**    |   **`WordCNN`**     | [https://huggingface.co/NorahAlshahrani/2dCNNmsda](https://huggingface.co/NorahAlshahrani/2dCNNmsda)  |           
+|     **`MSDA`**    |   **`WordLSTM`**    | [https://huggingface.co/NorahAlshahrani/biLSTMmsda](https://huggingface.co/NorahAlshahrani/biLSTMmsda)|
+|     **`MSDA`**    |     **`BERT`**      | [https://huggingface.co/NorahAlshahrani/BERTmsda](https://huggingface.co/NorahAlshahrani/BERTmsda)    |
 
 
 
@@ -20,7 +20,7 @@
 ## BibTeX Citation:
 @inproceedings{alshahrani-etal-2024-bert-synonym-attack,
     title = "{Arabic Synonym BERT-based Adversarial Examples for Text Classification}",
-    author = " "Alshahrani, Norah  and Alshahrani, Saied  and Wali, Esma  and Matthews, Jeanna ",
+    author = "Alshahrani, Norah  and Alshahrani, Saied  and Wali, Esma  and Matthews, Jeanna ",
     booktitle = "Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: Student Research Workshop",
     month = March,
     year = "2024",
