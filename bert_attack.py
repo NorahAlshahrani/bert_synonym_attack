@@ -684,7 +684,7 @@ max_length = 300
 number_examples = 1000
 # Choose the model and dataset
 datasets = ['hard','msda']
-models = ['adv__bert', 'adv_bert', 'cnn','bert','bilstm']
+models = ['cnn','bert', 'bilstm', 'adv__bert', 'adv_bert']
 
 main(models, datasets, min_length, max_length, number_examples)
 
