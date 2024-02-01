@@ -1,4 +1,4 @@
-In this repository, we share the code scripts for training and fine-tuning Models on two datasets: Hotel Arabic Reviews Dataset (HARD) and Sentiment Analysis for Social Media Posts in Arabic Dialect (MSDA). 
+In this repository, we share the code scripts for training and fine-tuning Models on the Hotel Arabic Reviews Dataset (HARD) and Sentiment Analysis for Social Media Posts in Arabic Dialect (MSDA). 
 
 
 
