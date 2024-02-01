@@ -9,6 +9,16 @@
 
 |    Datasets     |     Models    |      Links     |
 |---------------- | ------------- | -------------- |
-|      HARD       |    WordCNN    |                |
-|                 |    WordLSTM   |                |
-|       MSDA      |     BERT      |                |
+|                 |    WordCNN    |                |
+|     HARD        |    WordLSTM   |                |
+|                 |     BERT      |                |
+|                 |    WordCNN    |                |
+|     MSDA        |   WordLSTM    |                |
+|                 |    BERT       |                |
+
+
+
+
+
+
+### Abstract:
