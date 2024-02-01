@@ -10,11 +10,11 @@
 |     **`HARD`**    |    **`WordCNN`**   | [https://huggingface.co/NorahAlshahrani/2dCNNhard](https://huggingface.co/NorahAlshahrani/2dCNNhard)  |
 |     **`HARD`**    |   **`WordLSTM`**    | [https://huggingface.co/NorahAlshahrani/biLSTMhard](https://huggingface.co/NorahAlshahrani/biLSTMhard)|
 |     **`HARD`**    |     **`BERT`**      | [https://huggingface.co/NorahAlshahrani/BERThard](https://huggingface.co/NorahAlshahrani/BERThard)    |
+|**`HARD + Adversarial Examples`**|   **`BERT`**  |[https://huggingface.co/NorahAlshahrani/Adv_BERT_Hard](https://huggingface.co/NorahAlshahrani/Adv_BERT_Hard) |
 |     **`MSDA`**    |   **`WordCNN`**     | [https://huggingface.co/NorahAlshahrani/2dCNNmsda](https://huggingface.co/NorahAlshahrani/2dCNNmsda)  |           
 |     **`MSDA`**    |   **`WordLSTM`**    | [https://huggingface.co/NorahAlshahrani/biLSTMmsda](https://huggingface.co/NorahAlshahrani/biLSTMmsda)|
 |     **`MSDA`**    |     **`BERT`**      | [https://huggingface.co/NorahAlshahrani/BERTmsda](https://huggingface.co/NorahAlshahrani/BERTmsda)    |
-
-
+|**`MSDA + Adversarial Examples`**|   **`BERT`**  | [https://huggingface.co/NorahAlshahrani/Adv_BERT_msda](https://huggingface.co/NorahAlshahrani/Adv_BERT_msda) |
 
 
 ## BibTeX Citation:
