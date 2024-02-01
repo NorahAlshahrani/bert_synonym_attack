@@ -5,20 +5,16 @@
 
 
 
-
-
 |    Datasets     |     Models    |      Links     |
 |---------------- | ------------- | -------------- |
 |                 |    WordCNN    |                |
-|     HARD        |    WordLSTM   |                |
+|     HARD        |   WordLSTM    |                |
 |                 |     BERT      |                |
-|                 |    WordCNN    |                |
+                      WordCNN     |                |
 |     MSDA        |   WordLSTM    |                |
-|                 |    BERT       |                |
+                       BERT       |                |
 
 
 
 
-
-
-### Abstract:
+## BibTeX Citation:
