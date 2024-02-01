@@ -1,59 +1,88 @@
-from transformers import logging as hflogging
-import logging, warnings, os, tensorflow as tf
+import os, time, torch
+from transformers import logging as hfl
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+import logging, warnings, tensorflow as tf
 from huggingface_hub.utils import disable_progress_bars
 
 
 disable_progress_bars()
+start_time = time.time()
+hfl.set_verbosity_error()
 tf.autograph.set_verbosity(0)
-hflogging.set_verbosity_error()
 tf.get_logger().setLevel('INFO')
 tf.get_logger().setLevel(logging.ERROR)
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 os.environ['TOKENIZERS_PARALLELISM'] = 'False'
 warnings.simplefilter(action='ignore', category=Warning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def load(model, dataset):
     if model == 'bert' and dataset == 'hard':
         from transformers import BertTokenizer, BertForSequenceClassification
-        tokenizer = BertTokenizer.from_pretrained('aubmindlab/bert-base-arabertv2')
-        model = BertForSequenceClassification.from_pretrained('NorahAlshahrani/BERThard', num_labels=4)
+        tokenizer = BertTokenizer.from_pretrained('bert-base-arabertv2')
+        model = BertForSequenceClassification.from_pretrained('BERThard', num_labels=4)
+        return model, tokenizer
+
+    if model == 'adv_bert' and dataset == 'hard':
+        from transformers import BertTokenizer, BertForSequenceClassification
+        tokenizer = BertTokenizer.from_pretrained('bert-base-arabertv2')
+        model = BertForSequenceClassification.from_pretrained('BERT_hard_adversarial', num_labels=4)
+        return model, tokenizer
+
+    if model == 'adv__bert' and dataset == 'hard':
+        from transformers import BertTokenizer, BertForSequenceClassification
+        tokenizer = BertTokenizer.from_pretrained('bert-base-arabertv2')
+        model = BertForSequenceClassification.from_pretrained('Adv_BERT_Hard', num_labels=4)
         return model, tokenizer
 
     elif model == 'cnn' and dataset == 'hard':
         import pickle
         from huggingface_hub import from_pretrained_keras
         tokenizer = pickle.load(open('tokenizerCNNhard.pickle', 'rb'))
-        model = from_pretrained_keras('NorahAlshahrani/2dCNNhard')
+        model = from_pretrained_keras('2dCNNhard')
         return model, tokenizer
 
     elif model == 'bilstm' and dataset == 'hard':
         import pickle
         from huggingface_hub import from_pretrained_keras
         tokenizer = pickle.load(open('tokenizerbiLSTMhard.pickle', 'rb'))
-        model = from_pretrained_keras('NorahAlshahrani/biLSTMhard')
+        model = from_pretrained_keras('biLSTMhard')
         return model, tokenizer
 
     elif model == 'bert' and dataset == 'msda':
         from transformers import BertTokenizer, BertForSequenceClassification
-        tokenizer = BertTokenizer.from_pretrained('aubmindlab/bert-base-arabertv2')
-        model = BertForSequenceClassification.from_pretrained('NorahAlshahrani/BERTmsda', num_labels=3)
+        tokenizer = BertTokenizer.from_pretrained('bert-base-arabertv2')
+        model = BertForSequenceClassification.from_pretrained('BERTmsda', num_labels=3)
+        return model, tokenizer
+
+    elif model == 'adv_bert' and dataset == 'msda':
+        from transformers import BertTokenizer, BertForSequenceClassification
+        tokenizer = BertTokenizer.from_pretrained('bert-base-arabertv2')
+        model = BertForSequenceClassification.from_pretrained('BERT_msda_adversarial', num_labels=3)
+        return model, tokenizer
+
+    elif model == 'adv__bert' and dataset == 'msda':
+        from transformers import BertTokenizer, BertForSequenceClassification
+        tokenizer = BertTokenizer.from_pretrained('bert-base-arabertv2')
+        model = BertForSequenceClassification.from_pretrained('Adv_BERT_msda', num_labels=3)
         return model, tokenizer
 
     elif model == 'cnn' and dataset == 'msda':
         import pickle
         from huggingface_hub import from_pretrained_keras
         tokenizer = pickle.load(open('tokenizerCNNmsda.pickle', 'rb'))
-        model = from_pretrained_keras('NorahAlshahrani/2dCNNmsda')
+        model = from_pretrained_keras('2dCNNmsda')
         return model, tokenizer
 
     elif model == 'bilstm' and dataset == 'msda':
         import pickle
         from huggingface_hub import from_pretrained_keras
         tokenizer = pickle.load(open('tokenizerbiLSTMmsda.pickle', 'rb'))
-        model = from_pretrained_keras('NorahAlshahrani/biLSTMmsda')
+        model = from_pretrained_keras('biLSTMmsda')
         return model, tokenizer
 
     else:
@@ -66,6 +95,26 @@ def predict(text, model, dataset):
     import numpy as np
     if model == 'bert' and dataset == 'hard':
         model, tokenizer = load('bert', 'hard')
+        inputs = tokenizer(text, return_tensors="pt", padding=True)
+        outputs = model(**inputs).logits
+        id2label = {0: 'Poor', 1: 'Fair', 2: 'Good', 3: 'Excellent'}
+        predicted_class_id = outputs.argmax().item()
+        preds = outputs.softmax(dim=-1).tolist()
+        predicted_score = np.max(preds)
+        return id2label[predicted_class_id], predicted_score
+
+    elif model == 'adv_bert' and dataset == 'hard':
+        model, tokenizer = load('adv_bert', 'hard')
+        inputs = tokenizer(text, return_tensors="pt", padding=True)
+        outputs = model(**inputs).logits
+        id2label = {0: 'Poor', 1: 'Fair', 2: 'Good', 3: 'Excellent'}
+        predicted_class_id = outputs.argmax().item()
+        preds = outputs.softmax(dim=-1).tolist()
+        predicted_score = np.max(preds)
+        return id2label[predicted_class_id], predicted_score
+
+    elif model == 'adv__bert' and dataset == 'hard':
+        model, tokenizer = load('adv__bert', 'hard')
         inputs = tokenizer(text, return_tensors="pt", padding=True)
         outputs = model(**inputs).logits
         id2label = {0: 'Poor', 1: 'Fair', 2: 'Good', 3: 'Excellent'}
@@ -102,6 +151,26 @@ def predict(text, model, dataset):
 
     elif model == 'bert' and dataset == 'msda':
         model, tokenizer = load('bert', 'msda')
+        inputs = tokenizer(text, return_tensors="pt")
+        outputs = model(**inputs).logits
+        id2label = {0: 'Negative', 1: 'Neutral', 2: 'Positive'}
+        predicted_class_id = outputs.argmax().item()
+        preds = outputs.softmax(dim=-1).tolist()
+        predicted_score = np.max(preds)
+        return id2label[predicted_class_id], predicted_score
+
+    elif model == 'adv_bert' and dataset == 'msda':
+        model, tokenizer = load('adv_bert', 'msda')
+        inputs = tokenizer(text, return_tensors="pt")
+        outputs = model(**inputs).logits
+        id2label = {0: 'Negative', 1: 'Neutral', 2: 'Positive'}
+        predicted_class_id = outputs.argmax().item()
+        preds = outputs.softmax(dim=-1).tolist()
+        predicted_score = np.max(preds)
+        return id2label[predicted_class_id], predicted_score
+
+    elif model == 'adv__bert' and dataset == 'msda':
+        model, tokenizer = load('adv__bert', 'msda')
         inputs = tokenizer(text, return_tensors="pt")
         outputs = model(**inputs).logits
         id2label = {0: 'Negative', 1: 'Neutral', 2: 'Positive'}
@@ -149,12 +218,17 @@ def tokenize(text):
     for token in tokenized_tokens:
         if token not in tokenized_text:
             tokenized_text.append(token)
-    return tokenized_text
+    return tokenized_textf
+
+
+def simple_word_tokenize(text):
+    from word_tokenizer import simple_word_tokenize as word_tokenizer
+    return word_tokenizer(text)
 
 
 
 def clean(text):
-    import re, string, emoji, nltk, ssl
+    import re, nltk, ssl
 
     try:
         _create_unverified_https_context = ssl._create_unverified_context
@@ -203,7 +277,7 @@ def clean(text):
     def remove_noise(text):
         text = re.sub('\s+', ' ', text)
         text = re.sub("\d+", " ", text)
-        text =re.sub(r'[a-zA-Z?]', '', text).strip()
+        text = re.sub(r'[a-zA-Z?]', '', text).strip()
         return text
 
 
@@ -217,8 +291,10 @@ def clean(text):
 
 
 def score(text, model, dataset):
-    tokenized_cleaned_example = tokenize(clean(text))
-    tokenized_original_example = tokenize(text)
+    # tokenized_cleaned_example = tokenize(clean(text))
+    # tokenized_original_example = tokenize(text)
+    tokenized_cleaned_example = simple_word_tokenize(clean(text))
+    tokenized_original_example = simple_word_tokenize(text)
 
     original_example_label, original_example_score = predict(text, model, dataset)
 
@@ -268,13 +344,12 @@ def mask(text, targeted_word, top_k):
     mask_token = '[MASK]'
     text = re.sub(targeted_word, mask_token, text)
 
-    unmasker = pipeline('fill-mask', model='aubmindlab/bert-base-arabertv02', device=-1)
+    unmasker = pipeline('fill-mask', model='bert-base-arabertv02', device=device)
     results = unmasker(text, top_k=top_k)
 
     synonym_words = []
     for result in results:
         try:
-            # print(result['token_str'], end=', ')
             synonym_words.append(result['token_str'])
         except TypeError:
             continue
@@ -285,7 +360,7 @@ def mask(text, targeted_word, top_k):
 
 def tag(text):
     from transformers import pipeline
-    tagger = pipeline('token-classification', model='CAMeL-Lab/bert-base-arabic-camelbert-ca-pos-egy', device=-1)
+    tagger = pipeline('token-classification', model='bert-base-arabic-camelbert-ca-pos-egy', device=device)
 
     results = tagger(text)
     return results
@@ -296,7 +371,7 @@ def check(text1, text2):
     from sentence_transformers import SentenceTransformer
     from sklearn.metrics.pairwise import cosine_similarity
 
-    model = SentenceTransformer('paraphrase-multilingual-mpnet-base-v2', device='cpu')
+    model = SentenceTransformer('paraphrase-multilingual-mpnet-base-v2', device=device)
     encoded_text1 = model.encode(text1)
     encoded_text2 = model.encode(text2)
 
@@ -440,34 +515,73 @@ def attack(examples, model, dataset):
                                                'targeted_word', 'synonym_word', 'adversarial_example', 'adversarial_label', 'adversarial_score'])
 
     for example in examples:
-
+        #print("+example", example)
         predication_label, predication_score = predict(example, model, dataset)
-        idx_words_example = tokenize(example)
+        # idx_words_example = tokenize(example) simple_word_tokenize
+        idx_words_example = simple_word_tokenize(example)
+        #print("+idx_words_example", idx_words_example)
 
         tagged_original_example = tag(example)
+        #print("+tagged_original_example", tagged_original_example)
+
 
         important_words = score(example, model, dataset)
+        #print("+important_words", important_words)
 
         for word in important_words:
             targeted_word = word
-            synonym_words = mask(example, targeted_word, 10)
+            #print("++targeted_word", targeted_word)
 
-            idx_word = idx_words_example.index(word)
-            word_pos = tagged_original_example[idx_words_example.index(idx_words_example[idx_word])]['entity']
+            synonym_words = mask(example, targeted_word, 50) # mask_mlm_top_k=50
+            #print("++synonym_words", synonym_words)
 
-            for s in range(0, len(synonym_words)):
+            idx_word = idx_words_example.index(targeted_word) #was word
+            #print("++idx_word", idx_word)
 
-                if word != synonym_words[s]:
+            # idx_org_word = None
+            for idx_dict, org_dict in enumerate(tagged_original_example):
+                if org_dict['word']==targeted_word:
+                    idx_org_word = idx_dict
+                    # print(idx_dict, org_dict['word'], tagged_original_example[idx_word]['entity'])
+            #print("++idx_org_word", idx_org_word)
+
+            try: word_pos = tagged_original_example[idx_org_word]['entity']
+                #print("++word_pos", word_pos)
+            except: continue
+
+            for i in range(0, len(synonym_words)):
+
+                if targeted_word != synonym_words[i]:
 
                     idx_replaced_words_example = list(idx_words_example)
-                    idx_replaced_words_example[idx_word] = synonym_words[s]
+                    #print("+++idx_replaced_words_example",idx_replaced_words_example)
+
+                    idx_replaced_words_example[idx_word] = synonym_words[i]
+                    #print(f"+++synonym_words[{i}]", idx_replaced_words_example[idx_word])
 
                     adversarial_example = " ".join(idx_replaced_words_example)
+                    #print("+++adversarial_example", adversarial_example)
 
-                    idx_words_adversarial_example = tokenize(adversarial_example)
-                    adversarial_targeted_word = synonym_words[s]
+                    # idx_words_adversarial_example = tokenize(adversarial_example)
+                    # idx_words_adversarial_example = simple_word_tokenize(adversarial_example)
+                    # #print("+++idx_words_adversarial_example", idx_words_adversarial_example)
+
+                    adversarial_targeted_word = synonym_words[i]
+                    #print("+++adversarial_targeted_word", adversarial_targeted_word)
+
                     tagged_adversarial_example = tag(adversarial_example)
-                    synonym_word_pos = tagged_adversarial_example[idx_words_adversarial_example.index(adversarial_targeted_word)]['entity']
+                    #print("+++tagged_adversarial_example", tagged_adversarial_example)
+
+                    # idx_adv_word = None
+                    for idx_dict, adv_dict in enumerate(tagged_adversarial_example):
+                        if adv_dict['word']==adversarial_targeted_word:
+                            idx_adv_word = idx_dict
+                            # print(idx_dict, adv_dict['word'], tagged_adversarial_example[idx_adv_word]['entity'])
+                    #print("++idx_adv_word", idx_adv_word)
+
+                    try: synonym_word_pos = tagged_adversarial_example[idx_adv_word]['entity']
+                    #print("+++synonym_word_pos", synonym_word_pos)
+                    except: continue
 
                     if word_pos == synonym_word_pos:
                         similarity = check(example, adversarial_example)
@@ -479,7 +593,7 @@ def attack(examples, model, dataset):
                             all_results = all_results.append({'model':model,
                                                               'dataset':dataset, 'example':example,
                                                               'predication_label':predication_label, 'predication_score':predication_score,
-                                                              'targeted_word':targeted_word,  'synonym_word':synonym_words[s],
+                                                              'targeted_word':targeted_word,  'synonym_word':synonym_words[i],
                                                               'adversarial_example':adversarial_example,
                                                               'adversarial_label':adversarial_label, 'adversarial_score':adversarial_score}, ignore_index = True)
 
@@ -491,7 +605,9 @@ def attack(examples, model, dataset):
                                 print("          > Predication Label:", predication_label)
                                 print("          > Predication Score:", predication_score)
                                 print("            * Targeted Word:", targeted_word)
-                                print("            * Synonym Word:", synonym_words[s])
+                                print("              - Targeted Word POS:", word_pos)
+                                print("            * Synonym Word:", synonym_words[i])
+                                print("              - Synonym Word POS:", synonym_word_pos)
                                 print("        ----------------------------------------------")
                                 print("        ***** SUCCESSFUL ATTACK FOUND & RECORDED *****")
                                 print("        ----------------------------------------------")
@@ -503,7 +619,7 @@ def attack(examples, model, dataset):
                                                                         'dataset':dataset, 'example':example,
                                                                         'predication_label':predication_label,
                                                                         'predication_score':predication_score,
-                                                                        'targeted_word':targeted_word,  'synonym_word':synonym_words[s],
+                                                                        'targeted_word':targeted_word,  'synonym_word':synonym_words[i],
                                                                         'adversarial_example':adversarial_example, 'adversarial_label':adversarial_label,
                                                                         'adversarial_score':adversarial_score}, ignore_index = True)
                                 break
@@ -538,7 +654,7 @@ def main(models, datasets, min_length, max_length, number_examples):
 
         for dataset in datasets:
 
-            print(f"@@@ BEGINNING ATTACK: [ MODEL: `{model.upper()}` | DATASET: `{dataset.upper()}` ] @@@")
+            print(f"\n@@@ BEGINNING ATTACK: [ MODEL: `{model.upper()}` | DATASET: `{dataset.upper()}` ] @@@")
 
             print(f"\n   ## Sampling Examples from `{dataset.upper()}` Dataset:")
             selected_samples_dataframe, selected_samples_csv = sample(model, dataset, min_length, max_length, number_examples)
@@ -562,6 +678,16 @@ def main(models, datasets, min_length, max_length, number_examples):
             print("          < Accuracy After Attack (via Predication Labels):", accuracy_after_attack__labels, "%")
             print("          < Accuracy After Attack (via Predication Scores):", accuracy_after_attack__scores, "%\n\n")
 
-            # break
 
-        # break
+min_length = 30
+max_length = 300
+number_examples = 1000
+# Choose the model and dataset
+datasets = ['hard','msda']
+models = ['adv__bert', 'adv_bert', 'cnn','bert','bilstm']
+
+main(models, datasets, min_length, max_length, number_examples)
+
+end_time = time.time() - start_time
+print(f"@@@ EXECUTION TIME: {(end_time/60)/60} hours.\n")
+
