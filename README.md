@@ -1,6 +1,6 @@
 # Arabic Synonym BERT-based Adversarial Examples for Text Classification
 
-In this repository, we share code scripts of our synonym BERT-based adversarial attack, our trained models, our adversarial training experiments, and our experiments examining the transferability of attacks between the models, of our accepted paper, titled **Arabic Synonym BERT-based Adversarial Examples for Text Classification**, at *the 18th Conference of the European Chapter of the Association for Computational Linguistics: Student Research Workshop  (EACL 2024 SRW)*, March 21-22, 2024, Malta. 
+In this repository, we share code scripts of our synonym BERT-based adversarial attack, our trained models, our adversarial training experiments, and our experiments examining the transferability of attacks between the models, of our accepted paper, titled **[Arabic Synonym BERT-based Adversarial Examples for Text Classification](https://arxiv.org/abs/2402.03477)**, at *the 18th Conference of the European Chapter of the Association for Computational Linguistics: Student Research Workshop  (EACL 2024 SRW)*, March 21-22, 2024, Malta. 
 
 ## Abstract:
 
